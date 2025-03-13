@@ -1,5 +1,11 @@
 export default class CasellaModel {
-    constructor() {
+    private emoji: string;
+    
+    constructor(emoji: string) {
+        this.emoji = emoji;
+    }
 
+    get getEmoji() {
+        return this.emoji;
     }
 }

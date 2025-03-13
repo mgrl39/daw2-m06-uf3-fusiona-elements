@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import reactLogo from './assets/react.svg'
-import Joc from './pages/Joc/Joc';
 import viteLogo from '/vite.svg'
 import './App.css'
+import Casella from './components/Casella';
 
 useState;
 reactLogo;
@@ -11,11 +10,10 @@ viteLogo;
 
 function App() {
   return (
-    <BrowserRouter>
-    <Routes>
-      <Route path='/joc' element={<Joc/>}/>
-    </Routes>
-    </BrowserRouter>
+    <>
+      <h1>Fusiona-elements</h1>
+      <Casella />
+    </>
   )
 }
 
