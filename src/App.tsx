@@ -1,19 +1,13 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React from 'react'
 import './App.css'
-import Casella from './components/Casella';
-
-useState;
-reactLogo;
-viteLogo;
+import Graella from './components/Graella'
 
 function App() {
   return (
-    <>
+    <div className="app">
       <h1>Fusiona-elements</h1>
-      <Casella />
-    </>
+      <Graella />
+    </div>
   )
 }
 
