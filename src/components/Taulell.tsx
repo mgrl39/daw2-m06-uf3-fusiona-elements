@@ -1,3 +1,5 @@
+// Per gestionar l'estat del component. (useState)
+// ReactElement per indicar que el component retorna un element de React.
 import { useState, ReactElement } from 'react';
 import { Cella, Element, fusionCombinations, generadors, ElementType, FusionResult } from '../models/ElementModel';
 import Casella from './Casella';
@@ -7,7 +9,7 @@ import './Taulell.css';
 // Mida de la graella 6x6
 const MIDA_TAULER: number = 6;
 
-// Defino tipus de funcions per dir-li a typescript "com han de ser les funcions"
+// Definim tipus personalitzats per definir com han de ser les funcions que es passen com a paràmetres
 type GestorDeixarAnar = (cellaObjectiu: Cella) => void;
 type GestorIniciArrossegament = (cella: Cella) => void;
 type GestorClicGenerador = (fila: number, columna: number) => void;
@@ -41,6 +43,12 @@ const Taulell = (): ReactElement => {
   };
 
   // Estat de la graella.
+  /*
+    - graella -> Estat que conté l'estructura de la graella 
+    - setGraella -> Funció per actualitzar l'estat de la graella
+    - caellaArrossegada -> Estat que guarda la cel·la que s'esta arrossegant
+    - setCellaArrossegada -> Funció per actualizar l'estat de la cel·la arrossegada
+  */
   const [graella, setGraella] = useState<Cella[][]>(inicialitzarGraella());
   // Estat per saber quina cel·la s'està arrossegant.
   const [cellaArrossegada, setCellaArrossegada] = useState<Cella | null>(null);
@@ -55,13 +63,14 @@ const Taulell = (): ReactElement => {
     if (cellaGenerador.tipus != 'generador' || !cellaGenerador.element) return;
 
     // Troba la primera cel·la buida per comprovar si hi ha cel·les buides (disponibles)
+    // Recordem que graella es [][], per tant utilitzant flat() obtenim un array lineal.
     const cellaBuida : Cella | undefined = graella.flat().find(cella => cella.tipus == 'buida');
     // Si no hi troba, no podem crear element per tant sortim.
     if (!cellaBuida) return console.log('No hi ha cel·les buides disponibles');
 
     /* Utilitzem una còpia de la graella per evitar "problemes de mutació". Es a dir, 
      * fem una còpia de la graella original i la modifiquem per no afetar la graella original.
-     * TODO: investigar més sobre aixo... 
+     * !! React treballa amb estat immutable
      */
     const novaGraella : Cella[][] = graella.map(fila => [...fila]);
     const { fila: filaBuida, columna: columnaBuida } = cellaBuida.posicio;
@@ -71,6 +80,8 @@ const Taulell = (): ReactElement => {
     const generadorOriginal = generadors.find(gen => gen.posicio.fila == fila && gen.posicio.columna == columna);
     
     // Afegir el nou element a la cel·la buida
+    // Es busca el generador original. 
+    // Es crea un nou element arrossegable a la primera cel·la buida. Es copia el tipus, emoji i nivell.
     novaGraella[filaBuida][columnaBuida] = {
       tipus: 'arrossegable',
       element: { 
@@ -88,18 +99,20 @@ const Taulell = (): ReactElement => {
   /**
    * Inicia l'arrossegament d'un element
    * cella - La cel·la que s'està arrossegant
+   * Guarda la cel·la que s'està arrossegant
    */
   const gestorIniciArrossegament: GestorIniciArrossegament = (cella) => cella.tipus == 'arrossegable' && setCellaArrossegada(cella);
 
   /**
    * Gestiona l'esdeveniment de deixar anar un element en una cel·la
    * cellaObjectiu - La cel·la objectiu on es deixa anar l'element
+   * Si es deixa un element sobre una altre cel·la hem de fer una comprovació de si es pot moure o fusionar.
    */
   const gestorDeixarAnar: GestorDeixarAnar = (cellaObjectiu: Cella): void => {
     if (!cellaArrossegada) return;
     const posicioOrigen: { fila: number, columna: number } = cellaArrossegada.posicio;
     const posicioDestinacio: { fila: number, columna: number } = cellaObjectiu.posicio;
-    // Si s'intenta deixar anar a la mateixa cel·la, no fer res
+    // Si s'intenta deixar anar a la mateixa cel·la, no fer res. Es a dir, a si mateixa
     if (posicioOrigen.fila == posicioDestinacio.fila && posicioOrigen.columna == posicioDestinacio.columna) {
       setCellaArrossegada(null);
       return;
@@ -114,7 +127,7 @@ const Taulell = (): ReactElement => {
     const novaGraella : Cella[][] = graella.map(fila => [...fila]);
 
     // Gestionar diferents escenaris de deixar anar
-    // Moure a una cel·la buida
+    // Moure a una cel·la si es buida.
     if (cellaObjectiu.tipus == 'buida') {
       novaGraella[filaObjectiu][columnaObjectiu] = {
         tipus: 'arrossegable',
@@ -124,7 +137,7 @@ const Taulell = (): ReactElement => {
 
       // Netejar la cel·la original: IMPORTANT!!!
       novaGraella[filaOrigen][columnaOrigen] = { tipus: 'buida', posicio: { fila: filaOrigen, columna: columnaOrigen } };
-    } 
+    }  // Si els dos elements son arrossegables, intentar fusionar. Si la fusió no es possible no passa res.
     else if (cellaObjectiu.tipus == 'arrossegable' && cellaObjectiu.element && cellaArrossegada.element) {
       // Intentar fusionar elements
       const resultat : Element | null = provarFusio(cellaArrossegada.element, cellaObjectiu.element);
@@ -140,6 +153,8 @@ const Taulell = (): ReactElement => {
       }
     }
     setGraella(novaGraella);
+    // setCellaArrossegada passant null ens serveix per "resetejar" el estat una vegada la acció d'arrossegar ha acabat.
+    // Es pot comprovar que si ho treiem queda verd el planol.
     setCellaArrossegada(null);
   };
 
@@ -159,6 +174,7 @@ const Taulell = (): ReactElement => {
     return null;
   };
 
+  // Renderització
   return (
     <div className="tauler">
       {graella.map((fila: Cella[], indexFila: number) => (
