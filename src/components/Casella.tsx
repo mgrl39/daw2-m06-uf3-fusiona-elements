@@ -7,29 +7,13 @@ interface CasellaProps { cell: Cell;
 }
 
 const Casella: React.FC<CasellaProps> = ({ cell, onGeneratorClick, onDragStart, onDrop, isDragging }) => {
-  // Handle generator clicks
-  const handleClick = () => {
-    if (cell.tipus == 'generador') {
-      onGeneratorClick();
-    }
-  };
-
-  // Handle drag start
-  const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
-    if (cell.tipus == 'arrossegable') {
-      //e.dataTransfer.setData('text/plain', ''); // Required for Firefox
-      onDragStart();
-    }
-  };
-
-  // Handle drag over to allow drops
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    if (cell.tipus == 'buida' || cell.tipus == 'arrossegable') {
-      e.preventDefault(); // Allow drop
-    }
-  };
-
-  // Handle drop event
+  // S'executa quan es fa clic en un generador
+  const handleClick = () => cell.tipus == 'generador' && onGeneratorClick();
+  // S'executa quan comença l'arrossegament d'un element
+  const handleDragStart = () => cell.tipus == 'arrossegable' && onDragStart();
+  // S'executa quan un element arrossegable passa per sobre d'aquesta cel·la
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => (cell.tipus == 'buida' || cell.tipus == 'arrossegable') && e.preventDefault();
+  // S'executa quan un element arrossegable es deixa anar sobre aquesta cel·la
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     onDrop();

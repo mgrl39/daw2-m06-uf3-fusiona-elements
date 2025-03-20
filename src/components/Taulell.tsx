@@ -4,7 +4,8 @@ import Casella from './Casella';
 import './Taulell.css';
 
 // Constants
-const BOARD_SIZE: number = 6; // Mida de la graella 6x6
+// Mida de la graella 6x6
+const BOARD_SIZE: number = 6;
 
 // Tipus per a funcions específiques del component
 type FusionFunction = (element1: Element, element2: Element) => Element | null;
@@ -50,14 +51,11 @@ const Taulell = (): ReactElement => {
     const generatorCell = grid[fila][columna];
     if (generatorCell.tipus != 'generador' || !generatorCell.element) return;
 
-    // Find the first empty cell
+    // Troba la primera cel·la buida
     const emptyCell = findFirstEmptyCell();
-    if (!emptyCell) {
-      console.log('No hi ha cel·les buides disponibles');
-      return;
-    }
+    if (!emptyCell) return console.log('No hi ha cel·les buides disponibles');
 
-    // Create a deep copy of the grid to avoid mutation issues
+    // Crear una còpia profunda de la graella per evitar problemes de mutació
     const newGrid = grid.map(row => [...row]);
     const { fila: emptyRow, columna: emptyCol } = emptyCell.posicio;
     
@@ -67,7 +65,7 @@ const Taulell = (): ReactElement => {
       element: { 
         tipus: generatorCell.element.tipus as ElementType,
         emoji: generatorCell.element.emoji,
-        level: generatorCell.element.level 
+        nivell: generatorCell.element.nivell 
       },
       posicio: { fila: emptyRow, columna: emptyCol }
     };
@@ -94,9 +92,7 @@ const Taulell = (): ReactElement => {
    * Inicia l'arrossegament d'un element
    * @param cell - La cel·la que s'està arrossegant
    */
-  const handleDragStart: DragStartHandler = (cell: Cell): void => {
-    if (cell.tipus == 'arrossegable') setDraggedCell(cell);
-  };
+  const handleDragStart: DragStartHandler = (cell) => cell.tipus === 'arrossegable' && setDraggedCell(cell);
 
   /**
    * Gestiona l'esdeveniment de deixar anar un element en una cel·la
@@ -117,12 +113,12 @@ const Taulell = (): ReactElement => {
     const targetRow = cellaObjectiu.fila;
     const targetCol = cellaObjectiu.columna;
 
-    // Create a deep copy of the grid to avoid mutation issues
+    // Crear una còpia profunda de la graella per evitar problemes de mutació
     const newGrid = grid.map(row => [...row]);
 
     // Gestionar diferents escenaris de deixar anar
+    // Moure a una cel·la buida
     if (targetCell.tipus == 'buida') {
-      // Moure a una cel·la buida
       newGrid[targetRow][targetCol] = {
         tipus: 'arrossegable',
         element: draggedCell.element ? { ...draggedCell.element } : undefined,
@@ -135,7 +131,6 @@ const Taulell = (): ReactElement => {
     else if (targetCell.tipus == 'arrossegable' && targetCell.element && draggedCell.element) {
       // Intentar fusionar elements
       const result = tryFusion(draggedCell.element, targetCell.element);
-      
       if (result) {
         // Fusió exitosa
         newGrid[targetRow][targetCol] = {
@@ -143,7 +138,6 @@ const Taulell = (): ReactElement => {
           element: result,
           posicio: { fila: targetRow, columna: targetCol }
         };
-
         // Netejar la cel·la d'origen
         newGrid[sourceRow][sourceCol] = { tipus: 'buida', posicio: { fila: sourceRow, columna: sourceCol } };
       }
@@ -164,7 +158,6 @@ const Taulell = (): ReactElement => {
       combo => (combo.primerTipus == element1.tipus && combo.segonTipus == element2.tipus) ||
               (combo.primerTipus == element2.tipus && combo.segonTipus == element1.tipus)
     );
-
     return combination ? combination.resultat : null;
   };
 
