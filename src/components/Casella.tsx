@@ -36,7 +36,7 @@ const Casella: React.FC<CasellaProps> = ({ cell, onGeneratorClick, onDragStart, 
       // Assignació de classes CSS per donar certs estils segons l'estat de la cel·la.
       className={`casella ${cell.tipus} ${isDragging ? 'arrossegant' : ''}`}
       
-      // Es crida a handleClick quan es clica
+      // Es crida a gestionarClic quan es clica
       onClick={gestionarClic}
       
       // Condicional, si la cel·la és arrossegable, permet l'arrossegar
