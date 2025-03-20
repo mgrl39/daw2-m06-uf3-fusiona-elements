@@ -38,7 +38,7 @@ export const fusionCombinations: FusionResult[] = [
 ];
 
 // Definició dels generadors
-export const generators = [
+export const generadors = [
   {
     tipus: 'generador',
     posicio: { fila: 0, columna: 0 },
