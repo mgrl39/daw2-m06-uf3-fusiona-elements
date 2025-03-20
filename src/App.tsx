@@ -2,10 +2,7 @@ import React from 'react'
 import './App.css'
 import Taulell from './components/Taulell'
 
-type CombinacioType = {
-  elements: string;
-  resultat: string;
-};
+type CombinacioType = { elements: string; resultat: string; };
 
 const combinacions: CombinacioType[] = [
   { elements: '💧 + 💧', resultat: '🥛 (Llet)' },

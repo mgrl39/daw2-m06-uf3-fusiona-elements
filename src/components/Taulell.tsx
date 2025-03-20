@@ -24,10 +24,7 @@ const Taulell = (): ReactElement => {
     for (let row = 0; row < BOARD_SIZE; row++) {
       const currentRow: Cell[] = [];
       for (let col = 0; col < BOARD_SIZE; col++) {
-        currentRow.push({
-          type: 'empty',
-          position: { row, col }
-        });
+        currentRow.push({ type: 'empty', position: { row, col } });
       }
       newGrid.push(currentRow);
     }
@@ -35,11 +32,7 @@ const Taulell = (): ReactElement => {
     // Afegir generadors segons la configuració
     generators.forEach(gen => {
       const { row, col } = gen.position;
-      newGrid[row][col] = {
-        type: 'generator',
-        element: gen.element,
-        position: { row, col }
-      };
+      newGrid[row][col] = { type: 'generator', element: gen.element, position: { row, col } };
     });
     
     return newGrid;
