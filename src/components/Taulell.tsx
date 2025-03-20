@@ -1,7 +1,7 @@
 // Per gestionar l'estat del component. (useState)
 // ReactElement per indicar que el component retorna un element de React.
 import { useState, ReactElement } from 'react';
-import { Cella, Element, fusionCombinations, generadors, ElementType, FusionResult } from '../models/ElementModel';
+import { Cella, Element, combinacionsFusions, generadors, TipusElement, ResultatFusio } from '../models/ElementModel';
 import Casella from './Casella';
 import './Taulell.css';
 
@@ -35,7 +35,7 @@ const Taulell = (): ReactElement => {
       const { fila, columna } = gen.posicio;
       novaGraella[fila][columna] = { tipus: 'generador', element: {
         ...gen.element,
-        tipus: gen.element.tipus as ElementType,
+        tipus: gen.element.tipus as TipusElement,
         emoji: gen.emojiVisual,
       }, posicio: { fila, columna } };
     });
@@ -85,7 +85,7 @@ const Taulell = (): ReactElement => {
     novaGraella[filaBuida][columnaBuida] = {
       tipus: 'arrossegable',
       element: { 
-        tipus: cellaGenerador.element.tipus as ElementType,
+        tipus: cellaGenerador.element.tipus as TipusElement,
         emoji: generadorOriginal ? generadorOriginal.element.emoji : cellaGenerador.element.emoji,
         nivell: cellaGenerador.element.nivell 
       },
@@ -166,8 +166,8 @@ const Taulell = (): ReactElement => {
    */
   const provarFusio = (primerElement: Element, segonElement: Element): Element | null => {
     const [tipus1, tipus2] = [primerElement.tipus, segonElement.tipus].sort()
-    for (let i = 0; i < fusionCombinations.length; i++) {
-      const combinacio : FusionResult = fusionCombinations[i];
+    for (let i = 0; i < combinacionsFusions.length; i++) {
+      const combinacio : ResultatFusio = combinacionsFusions[i];
       const [primerTipus, segonTipus] = [combinacio.primerTipus, combinacio.segonTipus].sort();
       if (tipus1 == primerTipus && tipus2 == segonTipus) return combinacio.resultat;
     }

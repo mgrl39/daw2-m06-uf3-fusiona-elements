@@ -2,9 +2,9 @@ import React from 'react'
 import './App.css'
 import Taulell from './components/Taulell'
 
-type CombinacioType = { elements: string; resultat: string; };
+type TipusCombinacio = { elements: string; resultat: string; };
 
-const combinacions: CombinacioType[] = [
+const combinacions: TipusCombinacio[] = [
   { elements: '💧 + 💧', resultat: '🥛' },
   { elements: '🔥 + 🔥', resultat: '🍳' },
   { elements: '🥛 + 🥛', resultat: '🚰' },
@@ -21,7 +21,7 @@ function App(): React.ReactElement {
       <div className="combinacions">
         <h3>Combinacions:</h3>
         <div className="llista-combinacions">
-          {combinacions.map((combo: CombinacioType, index: number) => (
+          {combinacions.map((combo: TipusCombinacio, index: number) => (
             <div key={index} className="combinatio">
               <span>{combo.elements} → {combo.resultat}</span>
             </div>
