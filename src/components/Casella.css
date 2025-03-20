@@ -1,4 +1,4 @@
-.casilla {
+.casella {
   width: 60px;
   height: 60px;
   border: 1px solid #ccc;
@@ -11,41 +11,41 @@
   position: relative;
 }
 
-/* Generator cell styling */
-.casilla.generator {
+/* Estil de cel·la generador */
+.casella.generador {
   background: #cc6666;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.casilla.generator:hover {
+.casella.generador:hover {
   transform: scale(1.05);
   box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
 
-.casilla.generator:active {
+.casella.generador:active {
   transform: scale(0.9);
 }
 
-/* Draggable element styling */
-.casilla.draggable {
+/* Estil d'element arrossegable */
+.casella.arrossegable {
   cursor: grab;
   background: #aaa;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.casilla.draggable:hover {
+.casella.arrossegable:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-/* Estil per a casilles buides quan s'està en mode de arrastre */
-.casilla.empty.is-dragging {
+/* Estil per a caselles buides quan s'està en mode d'arrossegament */
+.casella.buida.arrossegant {
   background-color: rgba(200, 250, 200, 0.9);
   border: 1px dashed #aaa;
 }
 
-.casilla.draggable.is-dragging {
+.casella.arrossegable.arrossegant {
   opacity: 0.6;
   background-color: rgba(182, 206, 195, 0.89);
 }

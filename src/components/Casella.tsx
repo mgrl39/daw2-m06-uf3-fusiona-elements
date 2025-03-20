@@ -9,14 +9,14 @@ interface CasellaProps { cell: Cell;
 const Casella: React.FC<CasellaProps> = ({ cell, onGeneratorClick, onDragStart, onDrop, isDragging }) => {
   // Handle generator clicks
   const handleClick = () => {
-    if (cell.type === 'generator') {
+    if (cell.tipus == 'generador') {
       onGeneratorClick();
     }
   };
 
   // Handle drag start
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
-    if (cell.type === 'draggable') {
+    if (cell.tipus == 'arrossegable') {
       //e.dataTransfer.setData('text/plain', ''); // Required for Firefox
       onDragStart();
     }
@@ -24,7 +24,7 @@ const Casella: React.FC<CasellaProps> = ({ cell, onGeneratorClick, onDragStart, 
 
   // Handle drag over to allow drops
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    if (cell.type === 'empty' || cell.type === 'draggable') {
+    if (cell.tipus == 'buida' || cell.tipus == 'arrossegable') {
       e.preventDefault(); // Allow drop
     }
   };
@@ -37,15 +37,15 @@ const Casella: React.FC<CasellaProps> = ({ cell, onGeneratorClick, onDragStart, 
 
   return (
     <div 
-      className={`casilla ${cell.type} ${isDragging ? 'is-dragging' : ''}`}
+      className={`casella ${cell.tipus} ${isDragging ? 'arrossegant' : ''}`}
       onClick={handleClick}
-      draggable={cell.type === 'draggable'}
+      draggable={cell.tipus == 'arrossegable'}
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
       {cell.element && (
-        <div className="contenido">
+        <div className="contingut">
           {cell.element.emoji}
         </div>
       )}

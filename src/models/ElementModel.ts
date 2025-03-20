@@ -1,45 +1,45 @@
-export type ElementType = 'fire' | 'water' | 'milk' | 'egg' | 'meat' | 'burger' | 'truck' | 'tap';
+export type ElementType = 'foc' | 'aigua' | 'llet' | 'ou' | 'hamburgesa' | 'hamburguesa' | 'camio' | 'aixeta' | 'carn';
 
 export interface Element {
-  type: ElementType;
+  tipus: ElementType;
   emoji: string;
   level: number;
 }
 
-export type CellType = 'empty' | 'generator' | 'draggable';
+export type CellType = 'buida' | 'generador' | 'arrossegable';
 
 export interface Cell {
-  type: CellType;
+  tipus: CellType;
   element?: Element;
-  position: { row: number; col: number };
+  posicio: { fila: number; columna: number };
 }
 
 export interface FusionResult {
-  type1: ElementType;
-  type2: ElementType;
-  result: Element;
+  primerTipus: ElementType;
+  segonTipus: ElementType;
+  resultat: Element;
 }
 
 // Define the fusion combinations
 export const fusionCombinations: FusionResult[] = [
-  { type1: 'water', type2: 'water', result: { type: 'milk', emoji: '🥛', level: 2 } },
-  { type1: 'fire', type2: 'fire', result: { type: 'egg', emoji: '🍳', level: 2 } },
-  { type1: 'milk', type2: 'milk', result: { type: 'tap', emoji: '🚰', level: 3 } },
-  { type1: 'tap', type2: 'tap', result: { type: 'truck', emoji: '🚛', level: 4 } },
-  { type1: 'egg', type2: 'egg', result: { type: 'meat', emoji: '🍗', level: 3 } },
-  { type1: 'meat', type2: 'meat', result: { type: 'burger', emoji: '🍔', level: 4 } }
+  { primerTipus: 'aigua', segonTipus: 'aigua', resultat: { tipus: 'llet', emoji: '🥛', level: 2 } },
+  { primerTipus: 'foc', segonTipus: 'foc', resultat: { tipus: 'ou', emoji: '🍳', level: 2 } },
+  { primerTipus: 'llet', segonTipus: 'llet', resultat: { tipus: 'aixeta', emoji: '🚰', level: 3 } },
+  { primerTipus: 'aixeta', segonTipus: 'aixeta', resultat: { tipus: 'camio', emoji: '🚛', level: 4 } },
+  { primerTipus: 'ou', segonTipus: 'ou', resultat: { tipus: 'carn', emoji: '🍗', level: 3 } },
+  { primerTipus: 'carn', segonTipus: 'carn', resultat: { tipus: 'hamburguesa', emoji: '🍔', level: 4 } }
 ];
 
 // Generator definitions
 export const generators = [
   {
-    type: 'generator',
-    position: { row: 0, col: 0 },
-    element: { type: 'fire' as ElementType, emoji: '🔥', level: 1 }
+    tipus: 'generador',
+    posicio: { fila: 0, columna: 0 },
+    element: { tipus: 'foc', emoji: '🔥', level: 1 }
   },
   {
-    type: 'generator',
-    position: { row: 0, col: 5 },
-    element: { type: 'water' as ElementType, emoji: '💧', level: 1 }
+    tipus: 'generador',
+    posicio: { fila: 0, columna: 5 },
+    element: { tipus: 'aigua', emoji: '💧', level: 1 }
   }
 ];
