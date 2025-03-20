@@ -6,9 +6,9 @@ export interface Element {
   nivell: number;
 }
 
+// Definició de la cel·la
 export type CellType = 'buida' | 'generador' | 'arrossegable';
 
-// Definició de la cel·la
 export interface Cell {
   tipus: CellType;
   element?: Element;
@@ -42,11 +42,11 @@ export const generators = [
   {
     tipus: 'generador',
     posicio: { fila: 0, columna: 0 },
-    element: { tipus: 'foc', emoji: '🔥', nivell: 1 }
+    element: { tipus: 'foc' as ElementType, emoji: '🔥', nivell: 1 }
   },
   {
     tipus: 'generador',
     posicio: { fila: 0, columna: 5 },
-    element: { tipus: 'aigua', emoji: '💧', nivell: 1 }
+    element: { tipus: 'aigua' as ElementType, emoji: '💧', nivell: 1 }
   }
 ];

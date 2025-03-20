@@ -19,7 +19,6 @@ const Taulell = (): ReactElement => {
    */
   const initializeGrid = (): Cell[][] => {
     const newGrid: Cell[][] = [];
-    
     for (let row = 0; row < BOARD_SIZE; row++) {
       const currentRow: Cell[] = [];
       for (let col = 0; col < BOARD_SIZE; col++) {
@@ -31,7 +30,10 @@ const Taulell = (): ReactElement => {
     // Afegir generadors segons la configuració
     generators.forEach(gen => {
       const { fila, columna } = gen.posicio;
-      newGrid[fila][columna] = { tipus: 'generador', element: gen.element, posicio: { fila, columna } };
+      newGrid[fila][columna] = { tipus: 'generador', element: {
+        ...gen.element,
+        tipus: gen.element.tipus as ElementType,
+      }, posicio: { fila, columna } };
     });
     
     return newGrid;
@@ -50,7 +52,7 @@ const Taulell = (): ReactElement => {
     if (generatorCell.tipus != 'generador' || !generatorCell.element) return;
 
     // Troba la primera cel·la buida
-    const emptyCell = grid.flat().find(cell => cell.tipus === 'buida');
+    const emptyCell = grid.flat().find(cell => cell.tipus == 'buida');
     if (!emptyCell) return console.log('No hi ha cel·les buides disponibles');
 
     // Crear una còpia profunda de la graella per evitar problemes de mutació
@@ -147,8 +149,6 @@ const Taulell = (): ReactElement => {
     }
     return null;
   };
-  
-  
 
   return (
     <div className="tauler">
@@ -161,7 +161,7 @@ const Taulell = (): ReactElement => {
               onGeneratorClick={() => handleGeneratorClick(rowIndex, colIndex)}
               onDragStart={() => handleDragStart(cell)}
               onDrop={() => handleDrop(cell)}
-              isDragging={draggedCell !== null}
+              isDragging={draggedCell != null}
             />
           ))}
         </div>

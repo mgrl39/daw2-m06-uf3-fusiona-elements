@@ -8,6 +8,7 @@
   font-size: 24px;
   background-color: #f8f8f8;
   position: relative;
+  user-select: none
 }
 
 /* Estil de cel·la generador */

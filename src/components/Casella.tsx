@@ -2,8 +2,12 @@ import React from 'react';
 import { Cell } from '../models/ElementModel';
 import './Casella.css';
 
-interface CasellaProps { cell: Cell; 
-  onGeneratorClick: () => void; onDragStart: () => void; onDrop: () => void; isDragging: boolean; 
+interface CasellaProps {
+  cell: Cell;
+  onGeneratorClick: () => void; 
+  onDragStart: () => void; 
+  onDrop: () => void; 
+  isDragging: boolean;
 }
 
 const Casella: React.FC<CasellaProps> = ({ cell, onGeneratorClick, onDragStart, onDrop, isDragging }) => {
@@ -20,7 +24,7 @@ const Casella: React.FC<CasellaProps> = ({ cell, onGeneratorClick, onDragStart, 
   };
 
   return (
-    <div 
+    <div
       className={`casella ${cell.tipus} ${isDragging ? 'arrossegant' : ''}`}
       onClick={handleClick}
       draggable={cell.tipus == 'arrossegable'}
@@ -28,12 +32,7 @@ const Casella: React.FC<CasellaProps> = ({ cell, onGeneratorClick, onDragStart, 
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
-      {cell.element && (
-        <div className="contingut">
-          {cell.element.emoji}
-        </div>
-      )}
-    </div>
+      {cell.element && (<div className="contingut">{cell.element.emoji}</div>)}</div>
   );
 };
 
