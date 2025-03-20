@@ -63,6 +63,6 @@ export const generadors: Generador[] = [
     tipus: 'generador',
     posicio: { fila: 0, columna: 5 },
     element: { tipus: 'aigua' as TipusElement, emoji: '💧', nivell: 1 },
-    emojiVisual: '🌊'
+    emojiVisual: '☁'
   }
 ];

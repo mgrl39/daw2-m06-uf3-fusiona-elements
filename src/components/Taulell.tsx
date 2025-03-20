@@ -126,20 +126,8 @@ const Taulell = (): ReactElement => {
     // Utilitzem una còpia de la graella per evitar "problemes de mutació"
     const novaGraella : Cella[][] = graella.map(fila => [...fila]);
 
-    // Gestionar diferents escenaris de deixar anar
-    // Moure a una cel·la si es buida.
-    if (cellaObjectiu.tipus == 'buida') {
-      novaGraella[filaObjectiu][columnaObjectiu] = {
-        tipus: 'arrossegable',
-        element: cellaArrossegada.element ? { ...cellaArrossegada.element } : undefined,
-        posicio: { fila: filaObjectiu, columna: columnaObjectiu }
-      };
-
-      // Netejar la cel·la original: IMPORTANT!!!
-      novaGraella[filaOrigen][columnaOrigen] = { tipus: 'buida', posicio: { fila: filaOrigen, columna: columnaOrigen } };
-    }  // Si els dos elements son arrossegables, intentar fusionar. Si la fusió no es possible no passa res.
-    else if (cellaObjectiu.tipus == 'arrossegable' && cellaObjectiu.element && cellaArrossegada.element) {
-      // Intentar fusionar elements
+    // Intentar fusionar elements
+    if (cellaObjectiu.tipus == 'arrossegable' && cellaObjectiu.element && cellaArrossegada.element) {
       const resultat : Element | null = provarFusio(cellaArrossegada.element, cellaObjectiu.element);
       if (resultat) {
         // Fusió exitosa

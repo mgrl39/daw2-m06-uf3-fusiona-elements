@@ -1,7 +1,7 @@
 .casella {
   width: 60px;
   height: 60px;
-  border: 1px solid #ccc;
+  border: 1px solid #ff5858;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,7 +11,6 @@
   user-select: none
 }
 
-/* Estil de cel·la generador */
 .casella.generador {
   background: #cc6666;
   cursor: pointer;
@@ -27,7 +26,6 @@
   transform: scale(0.9);
 }
 
-/* Estil d'element arrossegable */
 .casella.arrossegable {
   cursor: grab;
   background: #aaa;
@@ -37,12 +35,6 @@
 .casella.arrossegable:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
-/* Estil per a caselles buides quan s'està en mode d'arrossegament */
-.casella.buida.arrossegant {
-  background-color: rgba(200, 250, 200, 0.9);
-  border: 1px dashed #aaa;
 }
 
 .casella.arrossegable.arrossegant {
