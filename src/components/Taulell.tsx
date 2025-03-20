@@ -21,13 +21,14 @@ const Taulell = (): ReactElement => {
     const novaGraella: Cell[][] = [];
     for (let fila = 0; fila < MIDA_TAULER; fila++) {
       const filaActual: Cell[] = [];
+      // Afegir cel·les buides
       for (let columna = 0; columna < MIDA_TAULER; columna++) {
         filaActual.push({ tipus: 'buida', posicio: { fila, columna } });
       }
       novaGraella.push(filaActual);
     }
     
-    // Afegir generadors segons la configuració.
+    // Afegir generadors segons la configuració. Sense aquesta part no tindrem generadors
     generadors.forEach(gen => {
       const { fila, columna } = gen.posicio;
       novaGraella[fila][columna] = { tipus: 'generador', element: {
@@ -36,7 +37,6 @@ const Taulell = (): ReactElement => {
         emoji: gen.emojiVisual,
       }, posicio: { fila, columna } };
     });
-    
     return novaGraella;
   };
 
@@ -45,18 +45,18 @@ const Taulell = (): ReactElement => {
 
   /**
    * Gestiona el clic en un generador: crea un nou element a la primera cel·la buida
-   * @param fila - Fila del generador clicat
-   * @param columna - Columna del generador clicat
+   * fila - Fila del generador clicat
+   * columna - Columna del generador clicat
    */
   const gestorClicGenerador: GestorClicGenerador = (fila: number, columna: number): void => {
     const cellaGenerador = graella[fila][columna];
     if (cellaGenerador.tipus != 'generador' || !cellaGenerador.element) return;
 
-    // Troba la primera cel·la buida
+    // Troba la primera cel·la buida per comprovar si hi ha cel·les buides (disponibles)
     const cellaBuida = graella.flat().find(cella => cella.tipus == 'buida');
     if (!cellaBuida) return console.log('No hi ha cel·les buides disponibles');
 
-    // Crear una còpia profunda de la graella per evitar problemes de mutació
+    // Utilitzem una còpia de la graella per evitar "problemes de mutació"
     const novaGraella = graella.map(fila => [...fila]);
     const { fila: filaBuida, columna: columnaBuida } = cellaBuida.posicio;
     
@@ -75,18 +75,19 @@ const Taulell = (): ReactElement => {
       posicio: { fila: filaBuida, columna: columnaBuida }
     };
 
+    // Actualitzar la graella
     setGraella(novaGraella);
   };
 
   /**
    * Inicia l'arrossegament d'un element
-   * @param cella - La cel·la que s'està arrossegant
+   * cella - La cel·la que s'està arrossegant
    */
   const gestorIniciArrossegament: GestorIniciArrossegament = (cella) => cella.tipus == 'arrossegable' && setCellaArrossegada(cella);
 
   /**
    * Gestiona l'esdeveniment de deixar anar un element en una cel·la
-   * @param cellaObjectiu - La cel·la objectiu on es deixa anar l'element
+   * cellaObjectiu - La cel·la objectiu on es deixa anar l'element
    */
   const gestorDeixarAnar: GestorDeixarAnar = (cellaObjectiu: Cell): void => {
     if (!cellaArrossegada) return;
@@ -103,7 +104,7 @@ const Taulell = (): ReactElement => {
     const filaObjectiu = posicioDestinacio.fila;
     const columnaObjectiu = posicioDestinacio.columna;
 
-    // Crear una còpia profunda de la graella per evitar problemes de mutació
+    // Utilitzem una còpia de la graella per evitar "problemes de mutació"
     const novaGraella = graella.map(fila => [...fila]);
 
     // Gestionar diferents escenaris de deixar anar
@@ -138,9 +139,9 @@ const Taulell = (): ReactElement => {
 
   /**
    * Intenta fusionar dos elements segons les combinacions definides
-   * @param primerElement - Primer element a fusionar
-   * @param segonElement - Segon element a fusionar
-   * @returns Element | null - El resultat de la fusió o null si no hi ha combinació vàlida
+   * primerElement - Primer element a fusionar
+   * segonElement - Segon element a fusionar
+   * Retorna Element | null - El resultat de la fusió o null si no hi ha combinació vàlida
    */
   const provarFusio = (primerElement: Element, segonElement: Element): Element | null => {
     const [tipus1, tipus2] = [primerElement.tipus, segonElement.tipus].sort()
