@@ -54,7 +54,7 @@ const Taulell = (): ReactElement => {
   const [cellaArrossegada, setCellaArrossegada] = useState<Cella | null>(null);
 
   /**
-   * Gestiona el clic en un generador: crea un nou element.
+   * Gestiona el clic en un generador: crea un nou element en una posició aleatòria.
    * fila - Fila del generador clicat
    * columna - Columna del generador clicat
    */
@@ -62,26 +62,30 @@ const Taulell = (): ReactElement => {
     const cellaGenerador : Cella = graella[fila][columna];
     if (cellaGenerador.tipus != 'generador' || !cellaGenerador.element) return;
 
-    // Troba la primera cel·la buida per comprovar si hi ha cel·les buides (disponibles)
-    // Recordem que graella es [][], per tant utilitzant flat() obtenim un array lineal.
-    const cellaBuida : Cella | undefined = graella.flat().find(cella => cella.tipus == 'buida');
-    // Si no hi troba, no podem crear element per tant sortim.
-    if (!cellaBuida) return console.log('No hi ha cel·les buides disponibles');
+    // Troba totes les cel·les buides disponibles
+    // Recordem que graella és [][], per tant utilitzant flat() obtenim un array lineal.
+    const cellesBuides : Cella[] = graella.flat().filter(cella => cella.tipus == 'buida');
+    // Si no hi ha cel·les buides, no podem crear element per tant sortim.
+    if (cellesBuides.length == 0) return console.log('No hi ha cel·les buides disponibles');
+
+    // Seleccionar una cel·la buida aleatòria
+    const indexAleatori: number = Math.floor(Math.random() * cellesBuides.length);
+    const cellaBuidaAleatoria: Cella = cellesBuides[indexAleatori];
 
     /* Utilitzem una còpia de la graella per evitar "problemes de mutació". Es a dir, 
      * fem una còpia de la graella original i la modifiquem per no afetar la graella original.
      * !! React treballa amb estat immutable
      */
     const novaGraella : Cella[][] = graella.map(fila => [...fila]);
-    const { fila: filaBuida, columna: columnaBuida } = cellaBuida.posicio;
+    const { fila: filaBuida, columna: columnaBuida } = cellaBuidaAleatoria.posicio;
     
     // Trobar el generador original amb l'emoji correcte per crear l'element
     // Busquem el generador en la definició original per obtenir l'emoji correcte
     const generadorOriginal = generadors.find(gen => gen.posicio.fila == fila && gen.posicio.columna == columna);
     
-    // Afegir el nou element a la cel·la buida
+    // Afegir el nou element a la cel·la buida aleatòria
     // Es busca el generador original. 
-    // Es crea un nou element arrossegable a la primera cel·la buida. Es copia el tipus, emoji i nivell.
+    // Es crea un nou element arrossegable a la cel·la buida aleatòria. Es copia el tipus, emoji i nivell.
     novaGraella[filaBuida][columnaBuida] = {
       tipus: 'arrossegable',
       element: { 
