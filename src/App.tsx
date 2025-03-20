@@ -1,34 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React from 'react'
 import './App.css'
+import Taulell from './components/Taulell'
 
-function App() {
-  const [count, setCount] = useState(0)
+type CombinacioType = {
+  elements: string;
+  resultat: string;
+};
 
+const combinacions: CombinacioType[] = [
+  { elements: '💧 + 💧', resultat: '🥛 (Llet)' },
+  { elements: '🔥 + 🔥', resultat: '🍳 (Ou)' },
+  { elements: '🥛 + 🥛', resultat: '🚰 (Aixeta)' },
+  { elements: '🚰 + 🚰', resultat: '🚛 (Camió)' },
+  { elements: '🍳 + 🍳', resultat: '🍗 (Carn)' },
+  { elements: '🍗 + 🍗', resultat: '🍔 (Hamburguesa)' },
+]
+
+function App(): React.ReactElement {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="App">
+      <h1>Fusiona-elements</h1>
+      
+      <Taulell />
+      <div className="combinations">
+        <h3>Combinacions:</h3>
+        <div className="combinations-list">
+          {combinacions.map((combo: CombinacioType, index: number) => (
+            <div key={index} className="combination-item">
+              <span>{combo.elements}</span>
+              <span className="arrow">→</span>
+              <span>{combo.resultat}</span>
+            </div>
+          ))}
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 

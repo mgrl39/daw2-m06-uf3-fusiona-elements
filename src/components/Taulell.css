@@ -1,0 +1,11 @@
+.tablero {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #333;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.fila {
+  display: flex;
+} 

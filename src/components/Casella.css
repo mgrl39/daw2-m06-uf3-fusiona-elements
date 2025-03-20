@@ -1,0 +1,51 @@
+.casilla {
+  width: 60px;
+  height: 60px;
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  background-color: #f8f8f8;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+/* Generator cell styling */
+.casilla.generator {
+  background: #cc6666;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.casilla.generator:hover {
+  transform: scale(1.05);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+.casilla.generator:active {
+  transform: scale(0.9);
+}
+
+/* Draggable element styling */
+.casilla.draggable {
+  cursor: grab;
+  background: #aaa;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.casilla.draggable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Estil per a casilles buides quan s'està en mode de arrastre */
+.casilla.empty.is-dragging {
+  background-color: rgba(200, 250, 200, 0.9);
+  border: 1px dashed #aaa;
+}
+
+.casilla.draggable.is-dragging {
+  opacity: 0.6;
+  background-color: rgba(182, 206, 195, 0.89);
+}
