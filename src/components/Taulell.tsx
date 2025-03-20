@@ -1,5 +1,5 @@
 import { useState, ReactElement } from 'react';
-import { Cell, Element, fusionCombinations, generadors, ElementType } from '../models/ElementModel';
+import { Cella, Element, fusionCombinations, generadors, ElementType } from '../models/ElementModel';
 import Casella from './Casella';
 import './Taulell.css';
 
@@ -8,8 +8,8 @@ import './Taulell.css';
 const MIDA_TAULER: number = 6;
 
 // Tipus per a funcions específiques del component
-type GestorDeixarAnar = (cellaObjectiu: Cell) => void;
-type GestorIniciArrossegament = (cella: Cell) => void;
+type GestorDeixarAnar = (cellaObjectiu: Cella) => void;
+type GestorIniciArrossegament = (cella: Cella) => void;
 type GestorClicGenerador = (fila: number, columna: number) => void;
 
 const Taulell = (): ReactElement => {
@@ -17,10 +17,10 @@ const Taulell = (): ReactElement => {
    * Inicialitza la graella amb cel·les buides i generadors
    * Retorna Cell[][] - La graella inicialitzada
    */
-  const inicialitzarGraella = (): Cell[][] => {
-    const novaGraella: Cell[][] = [];
+  const inicialitzarGraella = (): Cella[][] => {
+    const novaGraella: Cella[][] = [];
     for (let fila = 0; fila < MIDA_TAULER; fila++) {
-      const filaActual: Cell[] = [];
+      const filaActual: Cella[] = [];
       // Afegir cel·les buides
       for (let columna = 0; columna < MIDA_TAULER; columna++) {
         filaActual.push({ tipus: 'buida', posicio: { fila, columna } });
@@ -40,8 +40,8 @@ const Taulell = (): ReactElement => {
     return novaGraella;
   };
 
-  const [graella, setGraella] = useState<Cell[][]>(inicialitzarGraella());
-  const [cellaArrossegada, setCellaArrossegada] = useState<Cell | null>(null);
+  const [graella, setGraella] = useState<Cella[][]>(inicialitzarGraella());
+  const [cellaArrossegada, setCellaArrossegada] = useState<Cella | null>(null);
 
   /**
    * Gestiona el clic en un generador: crea un nou element a la primera cel·la buida
@@ -89,7 +89,7 @@ const Taulell = (): ReactElement => {
    * Gestiona l'esdeveniment de deixar anar un element en una cel·la
    * cellaObjectiu - La cel·la objectiu on es deixa anar l'element
    */
-  const gestorDeixarAnar: GestorDeixarAnar = (cellaObjectiu: Cell): void => {
+  const gestorDeixarAnar: GestorDeixarAnar = (cellaObjectiu: Cella): void => {
     if (!cellaArrossegada) return;
     const posicioOrigen: { fila: number, columna: number } = cellaArrossegada.posicio;
     const posicioDestinacio: { fila: number, columna: number } = cellaObjectiu.posicio;
@@ -155,9 +155,9 @@ const Taulell = (): ReactElement => {
 
   return (
     <div className="tauler">
-      {graella.map((fila: Cell[], indexFila: number) => (
+      {graella.map((fila: Cella[], indexFila: number) => (
         <div key={indexFila} className="fila">
-          {fila.map((cella: Cell, indexColumna: number) => (
+          {fila.map((cella: Cella, indexColumna: number) => (
             <Casella 
               key={`${indexFila}-${indexColumna}`} 
               cell={cella}

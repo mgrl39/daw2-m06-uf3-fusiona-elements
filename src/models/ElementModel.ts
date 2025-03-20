@@ -1,3 +1,4 @@
+// Tipus d'elements, representats per emojis
 export type ElementType = 'foc' | 'aigua' | 'llet' | 'ou' | 'hamburgesa' | 'hamburguesa' | 'camio' | 'aixeta' | 'carn';
 
 export interface Element {
@@ -7,10 +8,10 @@ export interface Element {
 }
 
 // Definició de la cel·la
-export type CellType = 'buida' | 'generador' | 'arrossegable';
+export type TipusCella = 'buida' | 'generador' | 'arrossegable';
 
-export interface Cell {
-  tipus: CellType;
+export interface Cella {
+  tipus: TipusCella;
   element?: Element;
   posicio: { fila: number; columna: number };
 }
@@ -38,7 +39,6 @@ export const fusionCombinations: FusionResult[] = [
 ];
 
 // Definició dels generadors
-
 export interface Generador {
   tipus: 'generador';
   posicio: { fila: number; columna: number };
