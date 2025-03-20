@@ -42,11 +42,13 @@ export const generators = [
   {
     tipus: 'generador',
     posicio: { fila: 0, columna: 0 },
-    element: { tipus: 'foc' as ElementType, emoji: '🔥', nivell: 1 }
+    element: { tipus: 'foc' as ElementType, emoji: '🔥', nivell: 1 },
+    emojiVisual: '🌋'
   },
   {
     tipus: 'generador',
     posicio: { fila: 0, columna: 5 },
-    element: { tipus: 'aigua' as ElementType, emoji: '💧', nivell: 1 }
+    element: { tipus: 'aigua' as ElementType, emoji: '💧', nivell: 1 },
+    emojiVisual: '🌊'
   }
 ];

@@ -33,6 +33,7 @@ const Taulell = (): ReactElement => {
       newGrid[fila][columna] = { tipus: 'generador', element: {
         ...gen.element,
         tipus: gen.element.tipus as ElementType,
+        emoji: gen.emojiVisual,
       }, posicio: { fila, columna } };
     });
     
@@ -59,12 +60,16 @@ const Taulell = (): ReactElement => {
     const newGrid = grid.map(row => [...row]);
     const { fila: emptyRow, columna: emptyCol } = emptyCell.posicio;
     
+    // Trobar el generador original amb l'emoji correcte per crear l'element
+    // Busquem el generador en la definició original per obtenir l'emoji correcte
+    const originalGenerator = generators.find(gen => gen.posicio.fila == fila && gen.posicio.columna == columna);
+    
     // Afegir el nou element a la cel·la buida
     newGrid[emptyRow][emptyCol] = {
       tipus: 'arrossegable',
       element: { 
         tipus: generatorCell.element.tipus as ElementType,
-        emoji: generatorCell.element.emoji,
+        emoji: originalGenerator ? originalGenerator.element.emoji : generatorCell.element.emoji,
         nivell: generatorCell.element.nivell 
       },
       posicio: { fila: emptyRow, columna: emptyCol }
