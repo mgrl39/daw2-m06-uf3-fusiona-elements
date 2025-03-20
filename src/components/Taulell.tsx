@@ -8,11 +8,9 @@ import './Taulell.css';
 const BOARD_SIZE: number = 6;
 
 // Tipus per a funcions específiques del component
-type FusionFunction = (element1: Element, element2: Element) => Element | null;
 type DropHandler = (targetCell: Cell) => void;
 type DragStartHandler = (cell: Cell) => void;
 type GeneratorClickHandler = (fila: number, columna: number) => void;
-type FindEmptyCellFunction = () => Cell | null;
 
 const Taulell = (): ReactElement => {
   /**
@@ -52,7 +50,7 @@ const Taulell = (): ReactElement => {
     if (generatorCell.tipus != 'generador' || !generatorCell.element) return;
 
     // Troba la primera cel·la buida
-    const emptyCell = findFirstEmptyCell();
+    const emptyCell = grid.flat().find(cell => cell.tipus === 'buida');
     if (!emptyCell) return console.log('No hi ha cel·les buides disponibles');
 
     // Crear una còpia profunda de la graella per evitar problemes de mutació
@@ -74,25 +72,10 @@ const Taulell = (): ReactElement => {
   };
 
   /**
-   * Troba la primera cel·la buida a la graella
-   * @returns Cell | null - La primera cel·la buida o null si no hi ha cel·les buides
-   */
-  const findFirstEmptyCell: FindEmptyCellFunction = (): Cell | null => {
-    for (let row = 0; row < BOARD_SIZE; row++) {
-      for (let col = 0; col < BOARD_SIZE; col++) {
-        if (grid[row][col].tipus == 'buida') {
-          return grid[row][col];
-        }
-      }
-    }
-    return null;
-  };
-
-  /**
    * Inicia l'arrossegament d'un element
    * @param cell - La cel·la que s'està arrossegant
    */
-  const handleDragStart: DragStartHandler = (cell) => cell.tipus === 'arrossegable' && setDraggedCell(cell);
+  const handleDragStart: DragStartHandler = (cell) => cell.tipus == 'arrossegable' && setDraggedCell(cell);
 
   /**
    * Gestiona l'esdeveniment de deixar anar un element en una cel·la
@@ -152,14 +135,20 @@ const Taulell = (): ReactElement => {
    * @param element2 - Segon element a fusionar
    * @returns Element | null - El resultat de la fusió o null si no hi ha combinació vàlida
    */
-  const tryFusion: FusionFunction = (element1: Element, element2: Element): Element | null => {
-    // Trobar combinació de fusió coincident
-    const combination = fusionCombinations.find(
-      combo => (combo.primerTipus == element1.tipus && combo.segonTipus == element2.tipus) ||
-              (combo.primerTipus == element2.tipus && combo.segonTipus == element1.tipus)
-    );
-    return combination ? combination.resultat : null;
+  const tryFusion = (element1: Element, element2: Element): Element | null => {
+    for (let i = 0; i < fusionCombinations.length; i++) {
+      const combo = fusionCombinations[i];
+      if (
+        (combo.primerTipus == element1.tipus && combo.segonTipus == element2.tipus) ||
+        (combo.primerTipus == element2.tipus && combo.segonTipus == element1.tipus)
+      ) {
+        return combo.resultat;
+      }
+    }
+    return null;
   };
+  
+  
 
   return (
     <div className="tauler">
